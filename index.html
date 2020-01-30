@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+       
+      <!-- <script src="apiHandel.js" charset="utf-8"></script>   -->
+    
+      <!-- <script type="text/javascript" src="apiHandel.js" charset="utf-8"></script>  -->
+    <link rel="stylesheet" href="style.css" href="addDel.js">
+    <title>Book List</title>
+</head>
+
+<body>
+         
+       
+    <div class="container">
+	<hr>
+        <h1>Search All Books </h1>
+        <hr>
+        <div>
+            <div style="margin-top:3%;">
+            <label for="Title" style="margin-left: 20%;">Title</label>
+            <input type="text" id="title"   placeholder="Enter Book Title">
+            </div>
+        
+            <div style="margin-top:2%;">
+            <label for="Author " style="margin-left: 20%">Author</label>
+            <input type="text" id="author" placeholder="Enter Book Author Name">
+            </div >
+        </div>  
+        <div style="margin-top:3%;">
+                <button  id="btnAdd" style="margin-left:35%; width: 38% ; height: 3em;;">Add Book</button>
+            </div>
+            <hr>
+        <div style="margin-top:3%;">
+                <button  id="btnView" style="margin-left:35%; width: 38% ; height: 3em;;">View Book</button>
+            </div>
+            <hr>
+        <div>
+                <div style="margin-top: 2%;">
+                        <label for="Delete Book" style="margin-left: 20%;">Delete Book</label>
+                        <input type="click" id="id"  placeholder="Enter ID" >
+                    </div>
+            </div>
+        <div style="margin-top:3%;">
+            <button  id="btnDelete" style="margin-left:35%; width: 38% ; height: 3em;;">Delete Book</button>
+            </div>
+        <hr>
+        <div style="margin-top:3%;">
+                <button  id="btnUpdate" style="margin-left:35%; width: 38% ; height: 3em;;">Update Book</button>
+                </div>
+            <hr>
+        <form action="" id="book-form">
+           
+            
+            <!-- <div style="margin-top:3%;">
+                <label for="title">Title</label>
+                <input type="text" id="title" style="margin-left:10%;">
+            </div>
+            <div style="margin-top:2%;">
+                <label for="author">Author</label>
+                <input type="text" id="author" style="margin-left:7%;">
+            </div > -->
+          
+            <div style="margin-top:2%;margin-bottom:3%;">
+                <input type="submit" value="submit" id="btnBookPost" style="margin-left:17%;">
+                <!-- <button input type="submit" id="btnShow" style="margin-left:17%;">Show books</button> -->
+            </div>
+            
+        </form>
+        <hr>
+        <table style="margin-top:2%; margin-left:10%;" cellspacing=10>
+            <thead >
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>ID</th>
+                    <th></th>
+                </tr>
+                
+            </thead>
+            <tr>
+                    <td id="result1"></td>
+                    <td id="result2"></td>
+                    <td id="result3"></td>
+                </tr> 
+              <tbody id="output"></tbody>  
+             
+        </table> 
+      
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js" 
+   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+   crossorigin="anonymous"></script> 
+    <script type="text/javascript" src="addDel.js" charset="utf-8"></script> 
+  
+</body>
+
+</html>

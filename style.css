@@ -1,0 +1,111 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    font-size: 100%;
+}
+body{
+    box-sizing: border-box;
+    padding: 1.5rem;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: center;
+	 background-image: url("images.jpg");
+	 /* Full height */
+
+
+ /* Center and scale the image nicely */
+
+
+ background-size: auto;
+
+}
+.container{
+    border: 1px solid #000;
+	width:70%;
+	background-color:grey;
+	opacity: 0.8;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .3);
+}
+#book-form{
+	margin-left:20%;
+    padding: 10px;
+}
+input{
+	height:30px;
+	width:50%;
+}
+.alert{
+    background-color: red;
+    color: #ffffff;
+    text-align: center;
+}
+.success{
+    background-color: green;
+    color: #ffffff;
+    text-align: center;
+}
+h1{
+    text-align: center;
+}
+#submit{
+    padding: 0 1rem;
+    font-size: 1.3rem;
+}
+table{
+    text-align: center;
+    margin-left: 2.5rem;
+}
+thead{
+    font-size: 1.6rem;
+}
+th{
+    padding-left: 1rem;
+}
+td{
+    font-size: 1.4rem;
+    padding-left: 1rem;
+}
+a:link,
+a:visited{
+    color: blue;
+    text-decoration: none;
+}
+a:hover{
+    color: red;
+}
+label{
+	font-family:Arial,Bold;
+	font-size:18px;
+}
+hr{
+		height:5px;
+
+}
+
+#id {
+    margin-left:0%;
+    width: 38%;
+}
+
+#author {
+    margin-left:6.5%;
+    width: 38%;
+}
+
+#title {
+    margin-left:9%;
+    width: 38%;
+}
+
+.result{
+    display: inline-flex;
+}
+
+h3{
+    margin-left: 2px;
+}
