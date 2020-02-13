@@ -1,152 +1,227 @@
-$(document).ready(function(){
-document.getElementById('btnAdd').addEventListener('click', addApiData);
-document.getElementById('btnView').addEventListener('click', viewApiData);
-document.getElementById('btnDelete').addEventListener('click', deleteApiData);
-//document.getElementById('btnUpdate').addEventListener('click', updateApiData);
-//document.getElementById('book-form').addEventListener('submit',postApiData);
+let key = "";
+let title = "";
+let author = "";
+let counter = 0;
 
+window.addEventListener('load', () => {
+    document.getElementById("get").addEventListener("click", e => {
+         clearErrors();
+        axios.get('https://www.forverkliga.se/JavaScript/api/crud.php?requestKey')
+        .then(res => {key=res.data.key
+           showKey(res);
+        })
+        .catch ()
+       
+  });
 
-
- function addApiData() {
-    //
-
-
-    //
-    let $output=$('#output');
-    let title = document.getElementById('title').value;
-    let author = document.getElementById('author').value;
-
-    //let key='VkrYv';
-    let key='VkrYv';
-    let URL='https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key + '&op=insert&title=' + title + '&author=' + author;
-    console.log('url', URL);
+ document.getElementById("btnAdd").addEventListener("click", e => {
+    clearErrors();
+     //e.preventDefault();
+    title = document.getElementById("title").value
+    author = document.getElementById("author").value
+    loopForAddingBook(counter);
     
-    fetch(URL , {
-        method: 'GET'
-     
-      })
-    .then(function(response) {
-        //console.log(response.status)
 
-        
-        if (response.status >= 200 && response.status <= 299) {
-            
-            return response.json();
-          } else {
-            throw Error(response.statusText);
-          }
-        //return response.json();
-    })
-    .then(function(data) {
-        counter= 0;
-        if(data.status !== 'success' && counter < 5){  //if the respnse is error or in other words notSuccsess call it self again
-            console.log('failed trying again' + counter) // with incremented counter and if the counter is above 5 (comment below)
-            counter++;
-      
-            addApiData( );
-        }else if(data.status !== 'success' && counter < 5){ // do not call its self again and tell the user it failed
-            
-                console.log("failed to add books 5/5 tries. Try again!")
-        }else{ // if the book is added successfully at 5 times max tells the user it did succeeeeed
-            
-            console.log('Book Added on try ' + counter +'/5 tries' )
-           
-           console.log(data);
-         
-        }
-      
-    })
-    .catch(function(error) {
-        
-        console.log('error');
-        
-    });
 
-    /*$.ajax({
-        type: 'GET',
-        url:URL,
-        success:function(){
-            $.each(output,function(i, order){
-                $output.append(order.title,order.author);
-
-            });
-        }
-        
-    });*/
-}
-
-function viewApiData(){
- 
-    let key='VkrYv';
-    URL='https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key + '&op=select';
-    
-    fetch(URL) 
-    .then(function(response) {
-        if (response.status >= 200 && response.status <= 299) {
-            return response.json();
-          } else {
-            throw Error(response.statusText);
-          }
-    })
-    .then((books)=>{
-        console.log(books);
-        let result= '';
-        counter=0;
-
-        if(books.status === 'success' && counter < 5) {
-            for(let i=0;i<books.data.length;i++) {
-                result += `
-                    <div class='result'>
-                    <h3>${books.data[i].title}</h3>
-                    <p></b>${books.data[i].author}</p>
-                    <p></b>${books.data[i].id}</p>
-                    </div> `     
-                    ;                  
-            }
-            console.log('Books shows properly');
-            document.getElementById('output').innerHTML=result;
-            
-        }
-        else{ 
-            counter++;
-            viewApiData(counter++);
-           console.log('Books not showing properly  within' + counter +'/5 tries' ) ;
-        }
-    })
-    .catch(function(error) {
-        console.error(error);
-        
-    }); 
-    
-}
-
+   
 });
 
-function deleteApiData(){
-    let deleteID=document.getElementById("id").value;
-    let key='VkrYv';
-    URL='https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key + '&op=delete&id=' + deleteID;
-   
-    //console.log('id', deleteID);
-    fetch(URL , {
-      method: 'GET',
-   
+document.getElementById("btnView").addEventListener("click", e => {
+    clearErrors();
+    e.preventDefault();
+    loopForShowingBook(counter);
+    
+    
+})
+});
+
+
+function  loopForAddingBook(counter) {
+    counter++
+    axios.get("https://www.forverkliga.se/JavaScript/api/crud.php?op=insert&key=" +key +"&title=" +title +"&author=" +author)
+    .then(res => {res.data
+    addBook(res.data);
+
     })
-    .then(function(response) {
-        if (response.status >= 200 && response.status <= 299) {
-            return response.json();
-          } else {
-            throw Error(response.statusText);
-          }
-        //return response.json();
-    })
-    .then(function(data) {
-        console.log(data);
-       // document.getElementById('output').innerHTML=data;
-   })
-   .catch(function(error) {
-        console.error( error);
-        
+}
+
+function loopForShowingBook(counter) {
+    counter++
+    axios.get("https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key=" +key )
+    .then(res => {res.data
+    showData(res.data);
+    
     });
 
+
 }
+function clearErrors() {
+  document.getElementById('keyView').innerHTML = ``;
+  document.getElementById('bookAdd').innerHTML = ``;
+  document.getElementById('bookView').innerHTML = ``;
+
+}
+
+function showKey(res) {
+    console.log(res.data.status);
+    
+        if (res.data.status === "success") {
+            document.getElementById('keyView').innerHTML += `
+            <div class="card-body">
+            <h5>Succes Achieve:(${res.status})</h5>Key Collected
+            </div>
+            `;
+        }
+        else {
+            document.getElementById('keyView').innerHTML += `
+            <div class="card-body">
+            <pre><h5 id="error">Error:</h5>Något gick fel, försök igen!</pre>
+            </div>
+            `;
+        }
+  }
+
+function addBook(res) {
+      
+    if (res.status === "success") {
+        document.getElementById('bookAdd').innerHTML += `
+         <div class="card-body">
+           <h5>Book added properly to liabary database</h5>
+        </div>
+         `;
+         console.log("Added on: " + counter + " Try");
+         counter=0;
+         document.getElementById("title").value=""
+         document.getElementById("author").value=""
+        }
+    else {
+       
+         if (counter!==5) {
+            document.getElementById('bookAdd').innerHTML += `
+            <div class="card-body">
+                <pre><h5 id="error">Error:</h5>${res.message}</pre>
+           </div>
+            `;
+            loopForAddingBook(counter);
+         }
+         else {
+            counter=0;
+         }
+         
+         
+         
+        }
+
+
+
+}
+
+function showData(res) {
+
+    if (res.status === "success") {
+        let list = "<h5> Book Available at Libary:</h5>"
+        res.data.map(book => {list += "<li("+book.id+")}>" +book.title +" Written By: "+ book.author+"<li>"+ "<br>"})
+        // res.data.map(book => {list += "<button type=button class=btn btn-danger onClick={deleteBook("+book.id+")}>Ta Bort</button>"})
+        // res.data.map(book => {list += "<button type=button class=btn btn-danger onClick={deleteBook("+book.id+")}>Ändra Bok</button>"})
+        document.getElementById('bookView').innerHTML += `
+        <div class="card-body">
+        <pre><ol>${list}</ol></pre>
+        </div>
+        `;
+        console.log("Viewed on: " + counter + " Number Of Try");
+        console.log(res.data);
+        
+        counter=0;
+    }
+    else {
+        document.getElementById('bookView').innerHTML += `
+        <div class="card-body">
+        <pre><h5 id="error">Error:</h5>${JSON.stringify (res.message)}</pre>
+        </div>
+        `;
+        if (counter!==5) {
+            loopForShowingBook(counter);
+         }
+         else {
+            counter=0;
+         }
+    }
+    
+     
+     
+     
+}
+
+// function deleteBook(book) {
+//     clearErrors();
+//     counter = 0;
+//     deleteRequest();
+//     function deleteRequest() {
+//         if (counter !== 4){
+//             axios.get ("https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&key=" +key +"&id=" + book)
+//         .then(res => {
+//             if(res.data.status === 'success') {
+//                 document.getElementById('res-showdata').innerHTML += `
+//                 <div class="card-body">
+//                 <pre><h5>Lyckades:</h5>Boken togs bort!</pre>
+//                 </div>
+//                 `;
+//                 let data = res.data.data;
+    
+//             } else {
+//                 document.getElementById('res-showdata').innerHTML += `
+//                 <div class="card-body">
+//                 <pre><h5 id="error">Error:</h5>${JSON.stringify (res.data.message)}</pre>
+//                 </div>
+//                 `;
+//                 deleteRequest();
+//                 counter++
+//             }
+//             console.log(res)
+//         }
+//         )
+//         console.log(book);  
+
+//         }
+//     }
+     
+
+// }
+
+// function modifyBook(book) {
+//     clearErrors();
+//     counter = 0;
+//     title = document.querySelector("#exampleInputName2").value;
+//     author = document.querySelector("#exampleInputName").value;
+//     sendModifyRequest();
+    
+//     //` ${key} `
+//     function sendModifyRequest() {
+//         if (counter !== 4){
+//         axios.get ("https://www.forverkliga.se/JavaScript/api/crud.php?op=update&key=" +key +"&id=" + book+"&title=" +title +"&author=" +author)
+//         .then(res => {
+//             if(res.data.status === 'success') {
+//                 document.getElementById('res-showdata').innerHTML += `
+//                 <div class="card-body">
+//                 <pre><h5>Lyckades:</h5>Boken är nu ändrad!</pre>
+//                 </div>
+//                 `;
+//                 let data = res.data.data;
+    
+//             } else {
+//                 document.getElementById('res-showdata').innerHTML += `
+//                 <div class="card-body">
+//                 <pre><h5 id="error">Error:</h5>${JSON.stringify (res.data.message)}</pre>
+//                 </div>
+//                 `;
+//                 sendModifyRequest();
+//                 counter++
+//             }
+//             console.log(res)
+//         }
+//         )
+//         console.log(book);  
+
+//         }
+//     }
+// };
